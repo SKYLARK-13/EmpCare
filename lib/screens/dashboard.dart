@@ -260,7 +260,7 @@ class _DashBoardState extends State<DashBoard> {
 
 
                StreamBuilder(
-                   stream:  Firestore.instance.collection("Announcement").snapshots(),
+                   stream:  Firestore.instance.collection("Announcement").orderBy("timeStamp",descending: true).snapshots(),
                    builder: (context,snapshot) {
                      return snapshot.hasData ?  Column(
                          children: List.generate(snapshot.data.documents.length, (index) {

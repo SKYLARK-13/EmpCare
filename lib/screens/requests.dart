@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emp_care/color/color.dart';
+import 'package:emp_care/screens/request_info.dart';
 import 'package:emp_care/widgets/listItems.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,17 @@ class _RequestsState extends State<Requests> {
                             icon: Icons.info,
                             iconColor: Colors.white,
                             onPressed: (){
-                               Navigator
+                               Navigator.push(context, MaterialPageRoute(
+                                 builder: (context) =>
+                                     RequestInfo(
+                                       employeeName: doc['userName'],
+                                       employeeId: doc['userId'],
+                                       reason: doc['reason'],
+                                       toDate: doc['toDate'],
+                                       fromDate: doc['fromDate'],
+                                       docId : doc.documentID,
+                                     )
+                               ));
                             },
                           ),
                           SizedBox(height: 10,),

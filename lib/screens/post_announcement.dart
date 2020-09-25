@@ -21,7 +21,7 @@ class _PostAnnouncementState extends State<PostAnnouncement> {
 
 
     submit() async{
-       await db.collection("Announcement").document(Timestamp.now().toString()).setData({
+       await db.collection("Announcement").document().setData({
 
            "Announcement" :  announcementText.text,
            "time" : Timestamp.now().toDate().toString(),

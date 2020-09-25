@@ -51,7 +51,15 @@ class _MembersState extends State<Members> {
                            ListItems(
                              onPressed: (){
                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => EmployeeInfo(employeeId : document.documentID.toString()),
+                                  builder: (context) => EmployeeInfo(
+                                      employeeId : document.documentID.toString(),
+                                      name: document['name'],
+                                      phone: document['phone'],
+                                      leaves: document['leavesRemaining'],
+                                      email: document['email'],
+                                      address: document['address'],
+
+                                  ),
                                ));
                              },
                              color: index%2!=0 ?  Colors.green : Colors.blue,
