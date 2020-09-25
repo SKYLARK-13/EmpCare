@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emp_care/color/color.dart';
+import 'package:emp_care/employ_info.dart';
 import 'package:emp_care/widgets/listItems.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,11 @@ class _MembersState extends State<Members> {
                        return Column(
                          children: [
                            ListItems(
+                             onPressed: (){
+                               Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => EmployeeInfo(employeeId : document.documentID.toString()),
+                               ));
+                             },
                              color: index%2!=0 ?  Colors.green : Colors.blue,
                              titleColor: Colors.white,
                              title: document['name'].toString().toUpperCase(),

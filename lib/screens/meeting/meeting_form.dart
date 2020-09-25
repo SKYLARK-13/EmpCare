@@ -17,6 +17,41 @@ class _MeetingFormState extends State<MeetingForm> {
 
   var clicked = new List();
   var linkToSend = new List();
+  var allIds = new List();
+
+  String randomId;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      randomId = randomAlpha(8);
+    });
+  }
+
+  sendMeetingLink() async{
+    var db = Firestore.instance.collection("Meeting").document();
+   if(linkToSend.isNotEmpty) {
+       await  db.setData({
+         "To": linkToSend,
+         "From": "Admin",
+         "Time": Timestamp.now(),
+         "meetingId": randomId,
+       });
+
+   }
+   else{
+
+       await db.setData({
+         "To": allIds,
+         "From": "Admin",
+         "Time": Timestamp.now(),
+         "meetingId": randomId,
+       });
+   }
+
+  }
 
 
 
@@ -37,12 +72,25 @@ class _MeetingFormState extends State<MeetingForm> {
                     border: Border.fromBorderSide(BorderSide(color: Colors.red))
                   ),
                   child : SelectableText(
-                      "Your Meeting Code is :  ${randomAlpha(8)}",
+                      "Your Meeting Code is :  ${randomId}",
                        style: TextStyle(
                          fontSize: 18
                        ),
                   )
                 ),
+              ),
+
+              Container(
+                child : MaterialButton(
+                  onPressed: (){
+
+                      sendMeetingLink();
+
+                  },
+                  minWidth: 150,
+                  child :  Text( linkToSend.isEmpty ? "Send to all" : "Send Selected" ),
+                  color: yellow,
+                )
               ),
 
               Container(
@@ -61,7 +109,7 @@ class _MeetingFormState extends State<MeetingForm> {
                     IconButton(
                        icon : Icon( Icons.search ),
                       onPressed: (){
-                         print(linkToSend.length);
+                         print(linkToSend);
                       },
                     )
                   ],
@@ -83,6 +131,7 @@ class _MeetingFormState extends State<MeetingForm> {
                       DocumentSnapshot document = snapshot.data.documents[index];
 
                       clicked.add(0);
+                      allIds.add(document.documentID);
                       String text = document['name'].toString().toUpperCase();
                       var tick = clicked[index];
 
@@ -108,18 +157,10 @@ class _MeetingFormState extends State<MeetingForm> {
 
                                  icon:  clicked[index] == 1 ? Icons.check : null,
 
-
-
-
                                ),
                            SizedBox(height: 10,)
                          ],
                        );
-
-
-
-
-
 
                     })   : Container();
                   }

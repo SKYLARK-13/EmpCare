@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListItems extends StatefulWidget {
-  dynamic color, titleColor, title, icon,onPressed,iconColor,fontSize;
+  final dynamic color, titleColor, title, icon,onPressed,iconColor,fontSize;
 
 ListItems({ this.color,this.titleColor,this.title,this.icon,this.fontSize = 16.0,this.onPressed,this.iconColor});
 
