@@ -12,9 +12,6 @@ class AssignTask extends StatefulWidget {
 
 class _AssignTaskState extends State<AssignTask> {
 
-
-
-
   bool clicked = false;
 
   final taskText = TextEditingController();
