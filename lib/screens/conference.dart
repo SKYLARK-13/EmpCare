@@ -71,9 +71,6 @@ class _ConferenceState extends State<Conference> {
                  width: MediaQuery.of(context).size.width,
                  child : Stack(
                      children : [
-
-
-                       
                        Container(child: clicked == false ? onCamera()  :Container(color: Colors.grey,), width: MediaQuery.of(context).size.width,),
                        Opacity(
                            opacity: 0.2,
@@ -164,7 +161,9 @@ class _ConferenceState extends State<Conference> {
 
                      OutlineButton(
                        highlightColor: red,
-                       onPressed: (){},
+                       onPressed: (){
+
+                       },
                        child: Text("Generate a meeting link"),
                      )
 
@@ -172,8 +171,6 @@ class _ConferenceState extends State<Conference> {
                  ),
                )
              ),
-
-
 
            ],
          )

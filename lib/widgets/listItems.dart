@@ -13,7 +13,7 @@ ListItems({ this.color,this.titleColor,this.title,this.icon,this.fontSize = 16.0
 class _ListItemsState extends State<ListItems> {
   @override
   Widget build(BuildContext context) {
-    return       Padding(
+    return  Padding(
       padding: EdgeInsets.only(left: 10, right: 10),
       child: InkWell(
         hoverColor: Colors.blueAccent,

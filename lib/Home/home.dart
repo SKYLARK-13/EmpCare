@@ -1,9 +1,10 @@
 import 'package:emp_care/color/color.dart';
 import 'package:emp_care/screens/add_employ.dart';
 import 'package:emp_care/screens/dashboard.dart';
+import 'package:emp_care/screens/feedback.dart';
 import 'package:emp_care/screens/members.dart';
 import 'package:emp_care/screens/requests.dart';
-import 'package:emp_care/screens/settings.dart';
+
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -37,7 +38,8 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text("EMPLOYEE MANAGER" ,
+        centerTitle: true,
+        title: Text("EMPLOYEE MANAGER ADMIN" ,
             style: TextStyle(
               letterSpacing: 3,
               color: black,
@@ -46,21 +48,6 @@ class _HomeState extends State<Home> {
         ),
         bottomOpacity: 0.5,
         elevation: 0.5,
-
-        actions: [
-          IconButton(
-            onPressed : (){
-
-            },
-            icon : Icon(Icons.notifications, color : black),
-          ),
-          SizedBox(width: 10,),
-          CircleAvatar(
-             radius: 15,
-          ),
-
-          SizedBox(width: 20,)
-        ],
 
       ),
 
@@ -198,25 +185,27 @@ class _HomeState extends State<Home> {
 //          ),
 //        ],
 //      ),
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            selectedMenu = SelectedMenu.add;
-          });
-
-        },
-
-        child: Icon(Icons.add),
-        elevation: 8.0,
-      ),
+//
+//      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+//
+//      floatingActionButton: FloatingActionButton(
+//        onPressed: () {
+//          setState(() {
+//            selectedMenu = SelectedMenu.add;
+//          });
+//
+//        },
+//
+//        child: Icon(Icons.add),
+//        elevation: 8.0,
+//      ),
       bottomNavigationBar: BottomAppBar(
         color : Colors.white,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+
             IconButton(
 
               onPressed: (){
@@ -247,6 +236,29 @@ class _HomeState extends State<Home> {
 
               ),
             ),
+
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(50)
+              ),
+              child: IconButton(
+
+                onPressed: (){
+                  setState(() {
+                    selectedMenu = SelectedMenu.add;
+                  });
+                },
+
+                icon : Icon(
+                  Icons.add,
+                  size: 28,
+                  color : selectedMenu == SelectedMenu.add ?  Colors.white : Colors.black,
+
+                ),
+              ),
+            ),
+
             IconButton(
 
                 onPressed: (){
@@ -271,7 +283,7 @@ class _HomeState extends State<Home> {
                 },
 
                 icon  : Icon(
-                  Icons.settings,
+                  Icons.feedback_outlined,
                   size: 28,
                   color : selectedMenu == SelectedMenu.settings ?  Colors.blue : Colors.black,
 
@@ -279,7 +291,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        shape: CircularNotchedRectangle(),
+
 
       ),
 
@@ -295,7 +307,7 @@ class _HomeState extends State<Home> {
       return Members();
     }
     if(selectedMenu == SelectedMenu.settings) {
-      return Settings();
+      return FeedBack();
     }
     if(selectedMenu == SelectedMenu.requests){
        return Requests();

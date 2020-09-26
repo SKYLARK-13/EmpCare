@@ -26,13 +26,17 @@ class _AddEmployState extends State<AddEmploy> {
 
   bool clicked = false;
 
+  String passwordText = "";
 
    submitButton() async {
 
       if(_formKey.currentState.validate()) {
 
-          String password = randomAlphaNumeric(8);
 
+           String password = randomAlphaNumeric(8);
+           setState(() {
+             passwordText = password;
+           });
           dynamic userId = await _authService.registerWithEmailAndPassword(
             email: emailTextEditingController.text,
             password: password,
@@ -50,6 +54,7 @@ class _AddEmployState extends State<AddEmploy> {
             emailTextEditingController.text = "";
             addressTextEditingController.text = "";
             password = "";
+            passwordText= "";
             phoneTextEditingController.text = "";
             idProofTextEditingController.text = "";
             clicked = false;
@@ -75,11 +80,11 @@ class _AddEmployState extends State<AddEmploy> {
 
     // Create our message.
     final message = Message()
-      ..from = Address(username, 'your name')
-      ..recipients.add('yash181999@gmail.com')
+      ..from = Address(username, nameTextEditingController.text)
+      ..recipients.add(emailTextEditingController.text)
       ..subject = 'EMPCARE'
-      ..text = 'hello bhai.'
-      ..html = "<h1>Test</h1>\n<p>Hello Yash How are you</p>";
+      ..text = 'Login credentials'
+      ..html = "<h1>Credentials</h1>\n<p> Your Email Id is : ${emailTextEditingController.text} <br> Password is : ${passwordText.toString()} </p>";
 
     try {
       final sendReport = await send(message, smtpServer);
@@ -123,146 +128,150 @@ class _AddEmployState extends State<AddEmploy> {
 
     return Scaffold(
        body : Center(
-         child: Container(
-           width: MediaQuery.of(context).size.width*0.60,
-           alignment: Alignment.center,
-           child : Form(
-             key : _formKey,
-             child: Column(
+         child: SingleChildScrollView(
+           scrollDirection: Axis.vertical,
+           child: Container(
+             padding: EdgeInsets.all(50),
+             width: MediaQuery.of(context).size.width,
+             alignment: Alignment.center,
+             child : Form(
+               key : _formKey,
+               child: Column(
 
-               children: [
+                 children: [
 
-                 SizedBox(height : 25),
+                   SizedBox(height : 25),
 
-                 Container(child:
-                      Text("ADD A NEW EMPLOYEE",
-                        style :TextStyle(fontWeight: FontWeight.w500, fontSize: 20,)
-                      )
-                 ),
-
-                 SizedBox(height: 30),
-
-
-                 TextFormField(
-                   controller: nameTextEditingController,
-                   validator: (value) {
-                     if(value.isEmpty) {
-                       return "Field is empty";
-                     }
-
-                     return null;
-                   },
-                   decoration: InputDecoration(
-                       border : OutlineInputBorder(),
-                       labelText: "FULL NAME"
+                   Container(child:
+                        Text("ADD A NEW EMPLOYEE",
+                          style :TextStyle(fontWeight: FontWeight.w500, fontSize: 20,)
+                        )
                    ),
-                 ),
 
-                 SizedBox(height: 30),
-
-
-                 TextFormField(
-                   controller: emailTextEditingController,
-                   validator: (value) {
-                     if(value.isEmpty) {
-                       return "Field is empty";
-                     }
-                     if(!RegExp(r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
-                         .hasMatch(value)) {
-                       return "Invalid Email";
-                     }
-
-                     return null;
-                   },
-                   decoration: InputDecoration(
-
-                     border : OutlineInputBorder(),
-                     labelText: "EMAIL ID"
-                   ),
-                 ),
-
-                 SizedBox(height: 30),
+                   SizedBox(height: 30),
 
 
-                 TextFormField(
-                   controller: phoneTextEditingController,
-                   validator: (value) {
-                     if(value.isEmpty) {
-                       return "Field is empty";
-                     }
-                     if(value.toString().length > 10 || value.toString().length < 10){
-                       return "Invalid Phone Number";
-                     }
-
-                     return null;
-                   },
-                   decoration: InputDecoration(
-                       border : OutlineInputBorder(),
-                       labelText: "PHONE NUMBER"
-                   ),
-                 ),
-
-
-                 SizedBox(height: 30),
-
-                 TextFormField(
-                   controller: addressTextEditingController,
-                   validator: (value) {
-                     if(value.isEmpty) {
-                       return "Field is empty";
-                     }
-
-
-                     return null;
-                   },
-                   decoration: InputDecoration(
-                       border : OutlineInputBorder(),
-                       labelText: "ADDRESS"
-                   ),
-                 ),
-
-                 SizedBox(height: 30),
-
-                 TextFormField(
-                   controller: idProofTextEditingController,
-                   validator: (value) {
-                     if(value.isEmpty) {
-                       return "Field is empty";
-                     }
-                     return null;
-                   },
-                   decoration: InputDecoration(
-                       border : OutlineInputBorder(),
-                       labelText: "ID PROOF"
-                   ),
-                 ),
-
-                 SizedBox(height: 30),
-
-                 clicked == false ? Container(
-                   width: MediaQuery.of(context).size.width*0.30,
-                   height: 40,
-                   child: MaterialButton(
-                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                     color: purple,
-                     onPressed: () {
-                       if(_formKey.currentState.validate()) {
-                         setState(() {
-                           clicked = true;
-                         });
-                         submitButton();
+                   TextFormField(
+                     controller: nameTextEditingController,
+                     validator: (value) {
+                       if(value.isEmpty) {
+                         return "Field is empty";
                        }
 
+                       return null;
                      },
-                     child: Text("SUBMIT",
-                         style : TextStyle(color: white)
+                     decoration: InputDecoration(
+                         border : OutlineInputBorder(),
+                         labelText: "FULL NAME"
                      ),
                    ),
-                 ) : CircularProgressIndicator()
 
-               ],
-             ),
-           )
+                   SizedBox(height: 30),
+
+
+                   TextFormField(
+                     controller: emailTextEditingController,
+                     validator: (value) {
+                       if(value.isEmpty) {
+                         return "Field is empty";
+                       }
+                       if(!RegExp(r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
+                           .hasMatch(value)) {
+                         return "Invalid Email";
+                       }
+
+                       return null;
+                     },
+                     decoration: InputDecoration(
+
+                       border : OutlineInputBorder(),
+                       labelText: "EMAIL ID"
+                     ),
+                   ),
+
+                   SizedBox(height: 30),
+
+
+                   TextFormField(
+                     controller: phoneTextEditingController,
+                     validator: (value) {
+                       if(value.isEmpty) {
+                         return "Field is empty";
+                       }
+                       if(value.toString().length > 10 || value.toString().length < 10){
+                         return "Invalid Phone Number";
+                       }
+
+                       return null;
+                     },
+                     decoration: InputDecoration(
+                         border : OutlineInputBorder(),
+                         labelText: "PHONE NUMBER"
+                     ),
+                   ),
+
+
+                   SizedBox(height: 30),
+
+                   TextFormField(
+                     controller: addressTextEditingController,
+                     validator: (value) {
+                       if(value.isEmpty) {
+                         return "Field is empty";
+                       }
+
+
+                       return null;
+                     },
+                     decoration: InputDecoration(
+                         border : OutlineInputBorder(),
+                         labelText: "ADDRESS"
+                     ),
+                   ),
+
+                   SizedBox(height: 30),
+
+                   TextFormField(
+                     controller: idProofTextEditingController,
+                     validator: (value) {
+                       if(value.isEmpty) {
+                         return "Field is empty";
+                       }
+                       return null;
+                     },
+                     decoration: InputDecoration(
+                         border : OutlineInputBorder(),
+                         labelText: "ID PROOF"
+                     ),
+                   ),
+
+                   SizedBox(height: 30),
+
+                   clicked == false ? Container(
+                     width: MediaQuery.of(context).size.width*0.30,
+                     height: 40,
+                     child: MaterialButton(
+                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                       color: purple,
+                       onPressed: () {
+                         if(_formKey.currentState.validate()) {
+                           setState(() {
+                             clicked = true;
+                           });
+                           submitButton();
+                         }
+
+                       },
+                       child: Text("SUBMIT",
+                           style : TextStyle(color: white)
+                       ),
+                     ),
+                   ) : CircularProgressIndicator()
+
+                 ],
+               ),
+             )
+           ),
          ),
        )
     );

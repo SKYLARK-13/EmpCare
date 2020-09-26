@@ -1,3 +1,4 @@
+import 'package:emp_care/assignTask.dart';
 import 'package:emp_care/color/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -107,6 +108,25 @@ class _EmployeeInfoState extends State<EmployeeInfo> {
                       ),
                     ),
                   ],
+                ),
+              ),
+
+              SizedBox(height: 10,),
+
+              MaterialButton(
+                minWidth: MediaQuery.of(context).size.width,
+                height: 40,
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => AssignTask(userId : widget.employeeId),
+                  ));
+                },
+                color: Colors.blue,
+                child: Text(
+                    "ASSIGN A TASK",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                 ),
               )
 

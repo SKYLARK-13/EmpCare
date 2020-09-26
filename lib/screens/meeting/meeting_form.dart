@@ -2,6 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emp_care/color/color.dart';
+import 'package:emp_care/screens/meeting/videoCall.dart';
+import 'package:emp_care/screens/video_calling_agora/pages/index.dart';
 import 'package:emp_care/widgets/listItems.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
@@ -19,6 +21,8 @@ class _MeetingFormState extends State<MeetingForm> {
   var linkToSend = new List();
   var allIds = new List();
 
+  bool clickedBtn = false;
+
   String randomId;
 
   @override
@@ -31,14 +35,22 @@ class _MeetingFormState extends State<MeetingForm> {
   }
 
   sendMeetingLink() async{
-    var db = Firestore.instance.collection("Meeting").document();
+    var db = Firestore.instance.collection("Meeting").document(randomId);
    if(linkToSend.isNotEmpty) {
        await  db.setData({
          "To": linkToSend,
          "From": "Admin",
          "Time": Timestamp.now(),
          "meetingId": randomId,
+         "status" : "online",
        });
+       setState(() {
+         clickedBtn = false;
+
+       });
+       Navigator.pushReplacement(context, MaterialPageRoute(
+           builder: (context) => IndexPage(videoId: randomId,)
+       ));
 
    }
    else{
@@ -48,8 +60,18 @@ class _MeetingFormState extends State<MeetingForm> {
          "From": "Admin",
          "Time": Timestamp.now(),
          "meetingId": randomId,
+         "status" : "online",
        });
+       setState(() {
+         clickedBtn = false;
+       });
+       Navigator.pushReplacement(context, MaterialPageRoute(
+           builder: (context) => IndexPage(videoId: randomId,)
+       ));
    }
+
+
+
 
   }
 
@@ -81,17 +103,20 @@ class _MeetingFormState extends State<MeetingForm> {
               ),
 
               Container(
-                child : MaterialButton(
+                child : clickedBtn == false ?  MaterialButton(
                   onPressed: (){
 
                       sendMeetingLink();
+                      setState(() {
+                        clickedBtn = true;
+                      });
 
                   },
                   minWidth: 150,
                   child :  Text( linkToSend.isEmpty ? "Send to all" : "Send Selected" ),
                   color: yellow,
-                )
-              ),
+                ) :  CircularProgressIndicator(backgroundColor: yellow,),
+              ) ,
 
               Container(
                 color: lightBlue,

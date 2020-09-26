@@ -26,6 +26,7 @@ class _PostAnnouncementState extends State<PostAnnouncement> {
            "Announcement" :  announcementText.text,
            "time" : Timestamp.now().toDate().toString(),
            "timeStamp " : Timestamp.now(),
+
        });
 
        setState(() {
